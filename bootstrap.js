@@ -27,7 +27,7 @@ var core = {
 			// storage: OS.Path.join(OS.Constants.Path.profileDir, 'jetpack', core.addon.id, 'simple-storage')
 		},
 		pref_branch: 'extensions.Master-Password-Reset@jetpack.',
-		cache_key: '1.0' // set to version on release
+		cache_key: Math.random() // set to version on release
 	},
 	os: {
 		name: OS.Constants.Sys.Name.toLowerCase()
@@ -158,13 +158,13 @@ var windowListener = {
 			if (core.os.name != 'android') {
 				if (aDOMWindow.gBrowser) {
 					var domWinUtils = aDOMWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
-
+					console.log('gCuiCssUri:', gCuiCssUri);
 					domWinUtils.loadSheet(gCuiCssUri, domWinUtils.AUTHOR_SHEET);
 					// domWinUtils.loadSheet(gGenCssUri, domWinUtils.AUTHOR_SHEET);
 				}
 			} else {
 				if (aDOMWindow.NativeWindow && aDOMWindow.NativeWindow.menu) {
-
+					console.log('adding menu item');
 					var menuid = aDOMWindow.NativeWindow.menu.add('Lock Passwords', core.addon.path.images + 'icon-color16.png', cuiClick)
 					gAndroidMenus.push({
 						domwin: Cu.getWeakReference(aDOMWindow),
@@ -197,15 +197,15 @@ function cuiClick(e) {
 var gObserves = {
 	observers: {
 		'idle': function (aSubject, aTopic, aData) {
-
+			console.log('idle!', aSubject, aTopic, aData);
 
 			cuiClick();
 		}
 	},
 	init: function() {
-
+		console.log('this.observers:', this.observers);
 		for (var o in this.observers) {
-
+			console.log('initing o:', o);
 
 			// register it
 			// make it an object so i can addObserver and removeObserver to it
