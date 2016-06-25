@@ -5,7 +5,7 @@
 	<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	  <Description about="urn:mozilla:install-manifest">
 		<em:id>Master-Password-Reset@jetpack</em:id>
-		<em:version>1.0b</em:version>
+		<em:version>1.0</em:version>
 		<em:type>2</em:type>
 		<em:bootstrap>true</em:bootstrap>
 		<em:multiprocessCompatible>true</em:multiprocessCompatible>
@@ -23,7 +23,7 @@
 		<em:targetApplication>
 		  <Description>
 			<em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id>
-			<em:minVersion>7.0</em:minVersion> <!-- not yet defined -->
+			<em:minVersion>11.0</em:minVersion> <!-- not yet defined -->
 			<em:maxVersion>49.0</em:maxVersion> <!-- latest firefox for android version i tested in -->
 		  </Description>
 		</em:targetApplication>
