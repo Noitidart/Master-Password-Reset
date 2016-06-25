@@ -1,7 +1,6 @@
 // Imports
 const {interfaces: Ci, utils: Cu, classes:Cc, Constructor: CC} = Components;
 Cu.import('resource://gre/modules/Services.jsm');
-Cu.import('resource:///modules/CustomizableUI.jsm');
 Cu.import('resource://gre/modules/osfile.jsm');
 
 // Globals
@@ -61,6 +60,7 @@ function startup(aData, aReason) {
 		gGenCssUri = Services.io.newURI(core.addon.path.styles + 'chrome.css', null, null);
 
 		// insert cui
+		Cu.import('resource:///modules/CustomizableUI.jsm');
 		CustomizableUI.createWidget({
 			id: 'cui_masterpasswordreset',
 			defaultArea: CustomizableUI.AREA_NAVBAR,
