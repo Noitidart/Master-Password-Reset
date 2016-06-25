@@ -64,15 +64,15 @@ function startup(aData, aReason) {
 		CustomizableUI.createWidget({
 			id: 'cui_masterpasswordreset',
 			defaultArea: CustomizableUI.AREA_NAVBAR,
-			label: 'Toggle Lock', // TODO: l10n
-			tooltiptext: 'Toggle Lock', // TODO: l10n
+			label: 'Lock Passwords', // TODO: l10n
+			tooltiptext: 'Lock Passwords', // TODO: l10n
 			onCommand: cuiClick
 		});
-
-		windowListener.register();
 	} else {
 
 	}
+
+	windowListener.register();
 
 	gObserves.init();
 }
@@ -81,9 +81,10 @@ function shutdown(aData, aReason) {
 
 	if (aReason == APP_SHUTDOWN) { return }
 
+	windowListener.unregister();
+
 	if (core.os.name != 'android') {
 		CustomizableUI.destroyWidget('cui_masterpasswordreset');
-		windowListener.unregister();
 	} else {
 		for (var entry of gAndroidMenus) {
 			var domwin;
@@ -153,29 +154,34 @@ var windowListener = {
 	loadIntoWindow: function (aDOMWindow) {
 		if (!aDOMWindow) { return }
 
-		if (aDOMWindow.gBrowser) {
 
 			if (core.os.name != 'android') {
-				var domWinUtils = aDOMWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
-				console.log('gCuiCssUri:', gCuiCssUri);
-				domWinUtils.loadSheet(gCuiCssUri, domWinUtils.AUTHOR_SHEET);
-				// domWinUtils.loadSheet(gGenCssUri, domWinUtils.AUTHOR_SHEET);
+				if (aDOMWindow.gBrowser) {
+					var domWinUtils = aDOMWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+					console.log('gCuiCssUri:', gCuiCssUri);
+					domWinUtils.loadSheet(gCuiCssUri, domWinUtils.AUTHOR_SHEET);
+					// domWinUtils.loadSheet(gGenCssUri, domWinUtils.AUTHOR_SHEET);
+				}
 			} else {
-				var menuid = aDOMWindow.NativeWindow.menu.add('Lock It', core.addon.path.images + 'icon-color16.png', cuiClick)
-				gAndroidMenus.push({
-					domwin: Cu.getWeakReference(aDOMWindow),
-					menuid
-				});
+				if (aDOMWindow.NativeWindow && aDOMWindow.NativeWindow.menu) {
+					console.log('adding menu item');
+					var menuid = aDOMWindow.NativeWindow.menu.add('Lock Passwords', core.addon.path.images + 'icon-color16.png', cuiClick)
+					gAndroidMenus.push({
+						domwin: Cu.getWeakReference(aDOMWindow),
+						menuid
+					});
+				}
 			}
-		}
 	},
 	unloadFromWindow: function (aDOMWindow) {
 		if (!aDOMWindow) { return }
 
-		if (aDOMWindow.gBrowser) {
-			var domWinUtils = aDOMWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
-			domWinUtils.removeSheet(gCuiCssUri, domWinUtils.AUTHOR_SHEET);
-			// domWinUtils.removeSheet(gGenCssUri, domWinUtils.AUTHOR_SHEET);
+		if (core.os.name != 'android') {
+			if (aDOMWindow.gBrowser) {
+				var domWinUtils = aDOMWindow.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+				domWinUtils.removeSheet(gCuiCssUri, domWinUtils.AUTHOR_SHEET);
+				// domWinUtils.removeSheet(gGenCssUri, domWinUtils.AUTHOR_SHEET);
+			}
 		}
 	}
 };
