@@ -1,0 +1,9 @@
+@-moz-document url("chrome://browser/content/browser.xul") {
+	#cui_masterpasswordreset {
+		list-style-image: url('chrome://masterpasswordreset/content/resources/images/icon-color16.png');
+	}
+	#cui_masterpasswordreset[cui-areatype="menu-panel"],
+	toolbarpaletteitem[place="palette"] > #cui_masterpasswordreset {
+		list-style-image: url('chrome://masterpasswordreset/content/resources/images/icon-color32.png');
+	}
+}
